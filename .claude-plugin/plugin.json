@@ -1,0 +1,13 @@
+{
+  "name": "skills",
+  "description": "Python dependency replacement guidance from python-e18e.",
+  "version": "0.1.0",
+  "author": {
+    "name": "python-e18e",
+    "url": "https://github.com/python-e18e"
+  },
+  "homepage": "https://github.com/python-e18e/skills",
+  "repository": "https://github.com/python-e18e/skills",
+  "license": "MIT",
+  "keywords": ["skills", "python", "python-e18e"]
+}

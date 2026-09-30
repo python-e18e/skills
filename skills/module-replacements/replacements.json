@@ -1,0 +1,648 @@
+[
+  {
+    "name": "aioredis",
+    "alternative": "redis",
+    "minimum_python": "3.10",
+    "kind": "package",
+    "compatibility": "conditional",
+    "guidance": "Use redis.asyncio for aioredis 2-style code; aioredis merged into redis-py in 4.2.0rc1. The 1.x pool API is not interchangeable. Check connection cleanup with aclose(), pub/sub, and response decoding. The floor here is for researched redis 8.1.0.",
+    "source": "https://redis.io/faq/doc/26366kjrif/what-is-the-difference-between-aioredis-v2-0-and-redis-py-asyncio",
+    "references": [
+      "https://redis.io/docs/latest/develop/clients/redis-py/async/",
+      "https://pypi.org/project/redis/8.1.0/"
+    ]
+  },
+  {
+    "name": "appdirs",
+    "alternative": "platformdirs",
+    "minimum_python": "3.10",
+    "kind": "package",
+    "compatibility": "conditional",
+    "guidance": "The maintained fork retains AppDirs as an alias; change module imports to platformdirs. Corrected paths and environment handling can change storage locations: test each OS and migrate existing data where needed. The floor is for platformdirs 4.12.2.",
+    "source": "https://platformdirs.readthedocs.io/en/latest/changelog.html",
+    "references": [
+      "https://platformdirs.readthedocs.io/en/latest/api.html",
+      "https://pypi.org/project/platformdirs/4.12.2/"
+    ]
+  },
+  {
+    "name": "argparse",
+    "alternative": "argparse",
+    "minimum_python": "3.2",
+    "kind": "stdlib",
+    "compatibility": "drop-in",
+    "guidance": "Remove the backport requirement and keep import argparse. Check parser output and any reliance on backport-specific bug fixes on the lowest supported interpreter.",
+    "source": "https://pypi.org/project/argparse/",
+    "references": [
+      "https://docs.python.org/3/library/argparse.html"
+    ]
+  },
+  {
+    "name": "async-timeout",
+    "alternative": "asyncio.timeout / asyncio.timeout_at",
+    "minimum_python": "3.11",
+    "kind": "stdlib",
+    "compatibility": "conditional",
+    "guidance": "Use native timeout contexts when Python 3.11 is the minimum. Basic async-with usage is compatible; rewrite package-specific shift(), update(), or reject() calls using the native reschedule() API. Keep the backport for older interpreters.",
+    "source": "https://github.com/aio-libs-abandoned/async-timeout",
+    "references": [
+      "https://docs.python.org/3/library/asyncio-task.html#timeouts"
+    ]
+  },
+  {
+    "name": "asyncio",
+    "alternative": "asyncio",
+    "minimum_python": "3.4",
+    "kind": "stdlib",
+    "compatibility": "drop-in",
+    "guidance": "Remove the PyPI requirement and keep import asyncio. The current distribution is an obsolete empty stub; the standard library provides the implementation. This does not replace other asyncio ecosystem packages.",
+    "source": "https://pypi.org/project/asyncio/",
+    "references": [
+      "https://docs.python.org/3/library/asyncio.html"
+    ]
+  },
+  {
+    "name": "attrs",
+    "alternative": "dataclasses / pydantic",
+    "minimum_python": "3.9",
+    "kind": "stdlib-or-package",
+    "compatibility": "code-change",
+    "guidance": "Requires code changes and a choice of model semantics. Dataclasses (3.7+) suit plain data classes but need explicit replacements for attrs validators, converters, factories, and hooks. Pydantic 2.13.5 (3.9+) suits validation boundaries; rewrite schemas, validation, and serialization and choose strictness explicitly. attrs remains maintained.",
+    "source": "https://www.attrs.org/en/stable/why.html",
+    "references": [
+      "https://docs.python.org/3/library/dataclasses.html",
+      "https://docs.pydantic.dev/latest/concepts/models/",
+      "https://docs.pydantic.dev/latest/concepts/dataclasses/",
+      "https://pypi.org/project/pydantic/2.13.5/"
+    ]
+  },
+  {
+    "name": "backports.datetime-fromisoformat",
+    "alternative": "datetime",
+    "minimum_python": "3.11",
+    "kind": "stdlib",
+    "compatibility": "conditional",
+    "guidance": "Remove MonkeyPatch.patch_fromisoformat() setup and call date, datetime, and time.fromisoformat directly. Version 2 backports the broader Python 3.11 parser: Python 3.7 is sufficient only for the narrower version 1 behavior.",
+    "source": "https://pypi.org/project/backports.datetime-fromisoformat/",
+    "references": [
+      "https://docs.python.org/3/library/datetime.html"
+    ]
+  },
+  {
+    "name": "backports.functools-lru-cache",
+    "alternative": "functools.lru_cache",
+    "minimum_python": "3.3",
+    "kind": "stdlib",
+    "compatibility": "import-only",
+    "guidance": "Import lru_cache from functools instead of backports.functools_lru_cache. The recorded floor includes typed=True, added in Python 3.3; basic lru_cache exists in 3.2.",
+    "source": "https://pypi.org/project/backports.functools-lru-cache/",
+    "references": [
+      "https://docs.python.org/3/library/functools.html#functools.lru_cache"
+    ]
+  },
+  {
+    "name": "backports.shutil-get-terminal-size",
+    "alternative": "shutil.get_terminal_size",
+    "minimum_python": "3.3",
+    "kind": "stdlib",
+    "compatibility": "import-only",
+    "guidance": "Import get_terminal_size from shutil instead of backports.shutil_get_terminal_size. Check terminal detection and fallback dimensions in redirected and noninteractive environments.",
+    "source": "https://pypi.org/project/backports.shutil-get-terminal-size/",
+    "references": [
+      "https://docs.python.org/3/library/shutil.html#shutil.get_terminal_size"
+    ]
+  },
+  {
+    "name": "backports.zoneinfo",
+    "alternative": "zoneinfo",
+    "minimum_python": "3.9",
+    "kind": "stdlib",
+    "compatibility": "import-only",
+    "guidance": "Import ZoneInfo from zoneinfo. Keep tzdata where the system lacks an IANA timezone database, including typical Windows installations; removing the backport does not remove this data requirement.",
+    "source": "https://pypi.org/project/backports.zoneinfo/",
+    "references": [
+      "https://docs.python.org/3/library/zoneinfo.html#data-sources"
+    ]
+  },
+  {
+    "name": "black",
+    "alternative": "ruff",
+    "minimum_python": "3.7",
+    "kind": "package",
+    "compatibility": "code-change",
+    "guidance": "Requires formatter configuration and CI changes: use ruff format, align target Python and formatting settings, and inspect a formatting-only diff. Ruff aims for Black compatibility but documents differences; do not alternate formatters on the same files. The installation floor is for Ruff 0.16.9.",
+    "source": "https://docs.astral.sh/ruff/formatter/",
+    "references": [
+      "https://docs.astral.sh/ruff/formatter/black/",
+      "https://pypi.org/project/ruff/0.16.9/"
+    ]
+  },
+  {
+    "name": "cached-property",
+    "alternative": "functools.cached_property",
+    "minimum_python": "3.8",
+    "kind": "stdlib",
+    "compatibility": "conditional",
+    "guidance": "Suitable for plain synchronous cached_property on instances with a writable __dict__. Native cached_property does not provide the package's async Task caching, TTL, or threaded variants; its undocumented lock was removed in Python 3.12.",
+    "source": "https://pypi.org/project/cached-property/",
+    "references": [
+      "https://docs.python.org/3/library/functools.html#functools.cached_property"
+    ]
+  },
+  {
+    "name": "cdecimal",
+    "alternative": "decimal",
+    "minimum_python": "3.3",
+    "kind": "stdlib",
+    "compatibility": "import-only",
+    "guidance": "On CPython, import decimal instead of cdecimal: the C implementation was integrated in Python 3.3. Check numerical contexts and serialized results; this is not a performance guarantee for other Python implementations.",
+    "source": "https://pypi.org/project/cdecimal/",
+    "references": [
+      "https://docs.python.org/3/library/decimal.html"
+    ]
+  },
+  {
+    "name": "contextvars",
+    "alternative": "contextvars",
+    "minimum_python": "3.7",
+    "kind": "stdlib",
+    "compatibility": "drop-in",
+    "guidance": "Remove the backport requirement and keep import contextvars. Python 3.7 includes native asyncio integration; test context propagation through tasks and threads used by the application.",
+    "source": "https://pypi.org/project/contextvars/",
+    "references": [
+      "https://docs.python.org/3/library/contextvars.html"
+    ]
+  },
+  {
+    "name": "dataclasses",
+    "alternative": "dataclasses",
+    "minimum_python": "3.7",
+    "kind": "stdlib",
+    "compatibility": "drop-in",
+    "guidance": "Remove the Python 3.6 backport requirement and keep imports from dataclasses when all supported runtimes are Python 3.7+. Newer decorator options still require their own Python version floors.",
+    "source": "https://pypi.org/project/dataclasses/",
+    "references": [
+      "https://docs.python.org/3/library/dataclasses.html"
+    ]
+  },
+  {
+    "name": "enum34",
+    "alternative": "enum",
+    "minimum_python": "3.4",
+    "kind": "stdlib",
+    "compatibility": "drop-in",
+    "guidance": "Remove enum34 and keep imports from enum. Check persisted enum values and string representations when upgrading the interpreter, especially IntEnum stringification changes in Python 3.11.",
+    "source": "https://pypi.org/project/enum34/",
+    "references": [
+      "https://docs.python.org/3/library/enum.html"
+    ]
+  },
+  {
+    "name": "exceptiongroup",
+    "alternative": "builtins.ExceptionGroup / builtins.BaseExceptionGroup",
+    "minimum_python": "3.11",
+    "kind": "stdlib",
+    "compatibility": "conditional",
+    "guidance": "Use built-in exception group classes. Package catch() requires rewriting to except*; group-aware suppress() requires contextlib.suppress on Python 3.12.1+ for the backported behavior. Audit helper and traceback imports before removing the package.",
+    "source": "https://pypi.org/project/exceptiongroup/",
+    "references": [
+      "https://docs.python.org/3/library/contextlib.html#contextlib.suppress",
+      "https://docs.python.org/3/library/exceptions.html#exception-groups"
+    ]
+  },
+  {
+    "name": "flake8",
+    "alternative": "ruff",
+    "minimum_python": "3.7",
+    "kind": "package",
+    "compatibility": "code-change",
+    "guidance": "Requires configuration and CI changes: map every selected rule and plugin to Ruff, translate exclusions and per-file ignores, and compare diagnostics. Ruff defaults do not enable every Flake8 rule; arbitrary Flake8 plugins are not loaded. Retain checks without equivalents. The installation floor is for Ruff 0.16.9.",
+    "source": "https://docs.astral.sh/ruff/faq/#how-does-ruffs-linter-compare-to-flake8",
+    "references": [
+      "https://docs.astral.sh/ruff/configuration/",
+      "https://pypi.org/project/ruff/0.16.9/"
+    ]
+  },
+  {
+    "name": "fpdf",
+    "alternative": "fpdf2",
+    "minimum_python": "3.10",
+    "kind": "package",
+    "compatibility": "conditional",
+    "guidance": "The maintained successor keeps from fpdf import FPDF. Do not coinstall fpdf and fpdf2: both own the fpdf namespace. Test rendering, font handling, and output consumers; modern output() returns bytearray. The floor is for fpdf2 2.8.9.",
+    "source": "https://py-pdf.github.io/fpdf2/History.html",
+    "references": [
+      "https://py-pdf.github.io/fpdf2/UsageInWebAPI.html",
+      "https://pypi.org/project/fpdf2/2.8.9/"
+    ]
+  },
+  {
+    "name": "functools32",
+    "alternative": "functools",
+    "minimum_python": "3.2",
+    "kind": "stdlib",
+    "compatibility": "import-only",
+    "guidance": "Use functools rather than functools32 for the Python 3.2 API backported to Python 2. Use a patched interpreter and verify any relied-on bug fixes; later functools APIs have later version floors.",
+    "source": "https://pypi.org/project/functools32/",
+    "references": [
+      "https://docs.python.org/3.2/library/functools.html"
+    ]
+  },
+  {
+    "name": "futures",
+    "alternative": "concurrent.futures",
+    "minimum_python": "3.2",
+    "kind": "stdlib",
+    "compatibility": "drop-in",
+    "guidance": "Remove the Python 2 backport requirement and keep concurrent.futures imports. Check executor lifecycle and multiprocessing platform behavior when upgrading the runtime.",
+    "source": "https://pypi.org/project/futures/",
+    "references": [
+      "https://docs.python.org/3/library/concurrent.futures.html"
+    ]
+  },
+  {
+    "name": "fuzzywuzzy",
+    "alternative": "thefuzz",
+    "minimum_python": "3.8",
+    "kind": "package",
+    "compatibility": "conditional",
+    "guidance": "The maintainers renamed the project: change imports to thefuzz. The initial 0.19 successor matched fuzzywuzzy 0.18, but current thefuzz uses RapidFuzz; test score thresholds, preprocessing, and ties before upgrading. The floor is for thefuzz 0.22.1.",
+    "source": "https://github.com/seatgeek/fuzzywuzzy",
+    "references": [
+      "https://github.com/seatgeek/thefuzz",
+      "https://pypi.org/project/thefuzz/0.22.1/"
+    ]
+  },
+  {
+    "name": "importlib-metadata",
+    "alternative": "importlib.metadata",
+    "minimum_python": "3.8",
+    "kind": "stdlib",
+    "compatibility": "conditional",
+    "guidance": "Native metadata exists in 3.8, but this rolling backport can provide newer APIs. Selectable entry points and packages_distributions() need 3.10; compare every used API against the minimum interpreter before changing imports or removing the backport.",
+    "source": "https://github.com/python/importlib_metadata",
+    "references": [
+      "https://docs.python.org/3/library/importlib.metadata.html"
+    ]
+  },
+  {
+    "name": "importlib-resources",
+    "alternative": "importlib.resources",
+    "minimum_python": "3.9",
+    "kind": "stdlib",
+    "compatibility": "conditional",
+    "guidance": "Use native resources for the files()/Traversable API on 3.9+. Directory support in as_file() needs 3.12; newer backport APIs can require later interpreters. Audit all resource calls, including zipped packages, before removing the rolling backport.",
+    "source": "https://github.com/python/importlib_resources",
+    "references": [
+      "https://docs.python.org/3/library/importlib.resources.html"
+    ]
+  },
+  {
+    "name": "ipaddress",
+    "alternative": "ipaddress",
+    "minimum_python": "3.3",
+    "kind": "stdlib",
+    "compatibility": "conditional",
+    "guidance": "Remove the backport and keep imports only after testing accepted address strings and classifications. Native IPv4 parsing rejects leading-zero octets from Python 3.9.5; is_private/is_global classifications have also changed, including in 3.13.",
+    "source": "https://pypi.org/project/ipaddress/",
+    "references": [
+      "https://docs.python.org/3/library/ipaddress.html"
+    ]
+  },
+  {
+    "name": "isort",
+    "alternative": "ruff",
+    "minimum_python": "3.7",
+    "kind": "package",
+    "compatibility": "code-change",
+    "guidance": "Requires rule configuration and CI changes: enable Ruff I rules and use ruff check --select I --fix for import sorting. ruff format alone does not sort imports. Translate supported import-section settings and inspect differences; not every isort option is supported. The installation floor is for Ruff 0.16.9.",
+    "source": "https://docs.astral.sh/ruff/faq/#how-does-ruffs-linter-compare-to-isort",
+    "references": [
+      "https://docs.astral.sh/ruff/rules/#isort-i",
+      "https://pypi.org/project/ruff/0.16.9/"
+    ]
+  },
+  {
+    "name": "mock",
+    "alternative": "unittest.mock",
+    "minimum_python": "3.3",
+    "kind": "stdlib",
+    "compatibility": "conditional",
+    "guidance": "Change imports to unittest.mock only after checking used APIs against the minimum interpreter: AsyncMock needs 3.8 and ThreadingMock needs 3.13. The separately maintained package can contain fixes and features newer than an older standard library.",
+    "source": "https://pypi.org/project/mock/",
+    "references": [
+      "https://docs.python.org/3/library/unittest.mock.html"
+    ]
+  },
+  {
+    "name": "more-itertools",
+    "alternative": "itertools.pairwise / itertools.batched",
+    "minimum_python": "3.12",
+    "kind": "stdlib",
+    "compatibility": "code-change",
+    "guidance": "Requires code changes and only covers these helpers: pairwise exists in 3.10; batched exists in 3.12 and returns tuples rather than chunked() lists. batched(strict=True) needs 3.13. Other more-itertools helpers are not replaced; remove the package only after inventorying every use.",
+    "source": "https://more-itertools.readthedocs.io/en/stable/api.html",
+    "references": [
+      "https://docs.python.org/3/library/itertools.html"
+    ]
+  },
+  {
+    "name": "mypy",
+    "alternative": "ty",
+    "minimum_python": "3.8",
+    "kind": "package",
+    "compatibility": "code-change",
+    "guidance": "Requires configuration, suppression, and CI changes: run ty alongside mypy, translate rules to tool.ty, and compare diagnostics and type inference. Review plugin-dependent checks and library support separately; strict modes and error codes are not equivalent. The installation floor is for ty 0.0.84.",
+    "source": "https://docs.astral.sh/ty/coming-from-mypy-or-pyright/",
+    "references": [
+      "https://docs.astral.sh/ty/configuration/",
+      "https://pypi.org/project/ty/0.0.84/"
+    ]
+  },
+  {
+    "name": "pathlib",
+    "alternative": "pathlib",
+    "minimum_python": "3.4",
+    "kind": "stdlib",
+    "compatibility": "drop-in",
+    "guidance": "Remove the obsolete pathlib distribution and keep imports from pathlib. Check filesystem behavior on target platforms and verify newer methods against the minimum interpreter.",
+    "source": "https://pypi.org/project/pathlib/",
+    "references": [
+      "https://docs.python.org/3/library/pathlib.html"
+    ]
+  },
+  {
+    "name": "pathlib2",
+    "alternative": "pathlib",
+    "minimum_python": "3.4",
+    "kind": "stdlib",
+    "compatibility": "conditional",
+    "guidance": "Change pathlib2 imports to pathlib. Python 3.4 provides the base module, but the backport tracks later enhancements; inventory used methods and test path handling on supported platforms before removing it.",
+    "source": "https://pypi.org/project/pathlib2/",
+    "references": [
+      "https://docs.python.org/3/library/pathlib.html"
+    ]
+  },
+  {
+    "name": "pip",
+    "alternative": "uv",
+    "minimum_python": "3.8",
+    "kind": "package",
+    "compatibility": "code-change",
+    "guidance": "Requires workflow changes: choose uv pip for an existing requirements workflow, or uv add/lock/sync/run for a project workflow. Review indexes, credentials, constraints, environment selection, and resolver differences; uv does not invoke pip. The installation floor is for uv 0.12.20.",
+    "source": "https://docs.astral.sh/uv/pip/compatibility/",
+    "references": [
+      "https://docs.astral.sh/uv/guides/migration/pip-to-project/",
+      "https://pypi.org/project/uv/0.12.20/"
+    ]
+  },
+  {
+    "name": "pip-tools",
+    "alternative": "uv",
+    "minimum_python": "3.8",
+    "kind": "package",
+    "compatibility": "code-change",
+    "guidance": "Requires workflow changes: map pip-compile/pip-sync to uv pip compile/sync, or migrate direct dependencies to pyproject.toml and use uv.lock. Preserve constraints, markers, extras, indexes, and hashes where required; compare resolved environments. The installation floor is for uv 0.12.20.",
+    "source": "https://docs.astral.sh/uv/guides/migration/pip-to-project/",
+    "references": [
+      "https://docs.astral.sh/uv/pip/compatibility/",
+      "https://pypi.org/project/uv/0.12.20/"
+    ]
+  },
+  {
+    "name": "pycrypto",
+    "alternative": "pycryptodome",
+    "minimum_python": "3.7",
+    "kind": "package",
+    "compatibility": "conditional",
+    "guidance": "The maintained successor shares the Crypto namespace; do not coinstall the packages. It is nearly compatible, but removed public-key methods and explicit cipher-mode requirements need review. Test cryptographic formats and protocols. The floor is for PyCryptodome 3.23.0.",
+    "source": "https://pycryptodome.readthedocs.io/en/latest/src/vs_pycrypto.html",
+    "references": [
+      "https://pycryptodome.readthedocs.io/en/latest/src/installation.html",
+      "https://pypi.org/project/pycryptodome/3.23.0/"
+    ]
+  },
+  {
+    "name": "PyPDF2",
+    "alternative": "pypdf",
+    "minimum_python": "3.9",
+    "kind": "package",
+    "compatibility": "conditional",
+    "guidance": "The projects merged, continuing PyPDF2 3.x as pypdf 3.1+. Change imports to pypdf; older PdfFileReader/PdfFileWriter names and camelCase methods need rewrites. Current releases have further changes: test representative PDFs. The floor is for pypdf 6.19.0.",
+    "source": "https://pypdf.readthedocs.io/en/stable/meta/history.html",
+    "references": [
+      "https://pypdf.readthedocs.io/en/stable/user/migration-1-to-2.html",
+      "https://pypi.org/project/pypdf/6.19.0/"
+    ]
+  },
+  {
+    "name": "pyright",
+    "alternative": "ty",
+    "minimum_python": "3.8",
+    "kind": "package",
+    "compatibility": "code-change",
+    "guidance": "Requires configuration, suppression, editor, and CI changes: run ty alongside Pyright, map rules and source environments, and compare diagnostics before switching. Rewrite Pyright-specific ignore comments and review severity mappings; no blanket checking parity is claimed. The installation floor is for ty 0.0.84.",
+    "source": "https://docs.astral.sh/ty/coming-from-mypy-or-pyright/",
+    "references": [
+      "https://docs.astral.sh/ty/configuration/",
+      "https://pypi.org/project/ty/0.0.84/"
+    ]
+  },
+  {
+    "name": "python-dateutil",
+    "alternative": "datetime / zoneinfo",
+    "minimum_python": "3.11",
+    "kind": "stdlib",
+    "compatibility": "code-change",
+    "guidance": "Requires code changes and only covers a subset: datetime.fromisoformat() for a constrained ISO input contract, and ZoneInfo for IANA zones. Free-form parser.parse(), relativedelta, and rrule have no equivalent here. Native ISO parsing differs from isoparse(); retain dateutil if unsupported features are used.",
+    "source": "https://dateutil.readthedocs.io/en/stable/parser.html",
+    "references": [
+      "https://docs.python.org/3/library/datetime.html",
+      "https://docs.python.org/3/library/zoneinfo.html"
+    ]
+  },
+  {
+    "name": "pytz",
+    "alternative": "zoneinfo",
+    "minimum_python": "3.9",
+    "kind": "stdlib",
+    "compatibility": "code-change",
+    "guidance": "Requires code changes: replace localize()/normalize() patterns, is_dst decisions, and timezone construction with ZoneInfo and fold-aware handling. Test DST gaps, overlaps, and arithmetic; fold is not a general inverse of is_dst. Keep tzdata where system timezone data is unavailable.",
+    "source": "https://pytz-deprecation-shim.readthedocs.io/en/latest/migration.html",
+    "references": [
+      "https://docs.python.org/3/library/zoneinfo.html"
+    ]
+  },
+  {
+    "name": "requests",
+    "alternative": "httpx",
+    "minimum_python": "3.8",
+    "kind": "package",
+    "compatibility": "code-change",
+    "guidance": "Requires code changes: replace Session with httpx.Client, rewrite exceptions, adapters/transports, streaming, and raw body arguments. Configure redirect following and timeouts explicitly; async usage requires await and AsyncClient. Requests remains maintained. The floor is for HTTPX 0.28.1.",
+    "source": "https://www.python-httpx.org/compatibility/",
+    "references": [
+      "https://www.python-httpx.org/async/",
+      "https://pypi.org/project/httpx/0.28.1/"
+    ]
+  },
+  {
+    "name": "selectors34",
+    "alternative": "selectors",
+    "minimum_python": "3.4",
+    "kind": "stdlib",
+    "compatibility": "import-only",
+    "guidance": "Import selectors rather than selectors34 for the backported Python 3.4 API. Test event-loop integration and platform-specific selector availability.",
+    "source": "https://pypi.org/project/selectors34/",
+    "references": [
+      "https://docs.python.org/3/library/selectors.html"
+    ]
+  },
+  {
+    "name": "simplejson",
+    "alternative": "json / orjson",
+    "minimum_python": "3.10",
+    "kind": "stdlib-or-package",
+    "compatibility": "code-change",
+    "guidance": "Requires code changes and behavior tests. Native json suits basic JSON; orjson 3.12.0 requires Python 3.10 and returns bytes. Preserve Decimal precision explicitly and rewrite use_decimal, for_json, custom hooks, and non-finite-number handling. Neither target covers every simplejson feature; retain it when those features are needed.",
+    "source": "https://simplejson.readthedocs.io/en/latest/",
+    "references": [
+      "https://docs.python.org/3/library/json.html",
+      "https://github.com/ijl/orjson",
+      "https://pypi.org/project/orjson/3.12.0/"
+    ]
+  },
+  {
+    "name": "singledispatch",
+    "alternative": "functools.singledispatch / functools.singledispatchmethod",
+    "minimum_python": "3.8",
+    "kind": "stdlib",
+    "compatibility": "conditional",
+    "guidance": "Import from functools. This floor covers both functions; singledispatch alone exists in 3.4. Union-type registration needs 3.11. Check features used from the evolving backport against the minimum interpreter.",
+    "source": "https://pypi.org/project/singledispatch/",
+    "references": [
+      "https://docs.python.org/3/library/functools.html#functools.singledispatchmethod"
+    ]
+  },
+  {
+    "name": "sklearn",
+    "alternative": "scikit-learn",
+    "minimum_python": "3.11",
+    "kind": "package",
+    "compatibility": "drop-in",
+    "guidance": "Replace the deprecated sklearn distribution name in dependency files with scikit-learn; keep import sklearn unchanged. Preserve the actual scikit-learn version constraint, not the wrapper version 0.0. This floor is for scikit-learn 1.9.1, not every historical release.",
+    "source": "https://pypi.org/project/sklearn/",
+    "references": [
+      "https://pypi.org/project/scikit-learn/1.9.1/"
+    ]
+  },
+  {
+    "name": "statistics",
+    "alternative": "statistics",
+    "minimum_python": "3.4",
+    "kind": "stdlib",
+    "compatibility": "drop-in",
+    "guidance": "Remove the Python 2 backport of the Python 3.4 statistics module and keep import statistics. Verify numerical results and exception expectations when changing interpreter versions.",
+    "source": "https://pypi.org/project/statistics/",
+    "references": [
+      "https://docs.python.org/3/library/statistics.html"
+    ]
+  },
+  {
+    "name": "StrEnum",
+    "alternative": "enum.StrEnum",
+    "minimum_python": "3.11",
+    "kind": "stdlib",
+    "compatibility": "conditional",
+    "guidance": "Suitable for explicit string-valued members after an import change. Package StrEnum preserves member names for auto(), while enum.StrEnum lowercases them: preserve wire values explicitly. Specialized case-conversion subclasses have no direct native replacement.",
+    "source": "https://pypi.org/project/StrEnum/",
+    "references": [
+      "https://docs.python.org/3/library/enum.html#enum.StrEnum"
+    ]
+  },
+  {
+    "name": "subprocess32",
+    "alternative": "subprocess",
+    "minimum_python": "3.5",
+    "kind": "stdlib",
+    "compatibility": "import-only",
+    "guidance": "Import subprocess instead of subprocess32. Python 3.5 covers its run() API and Python 3.3 covers timeouts; on Python 3 the package already redirects to subprocess. Test process cleanup and platform behavior.",
+    "source": "https://pypi.org/project/subprocess32/",
+    "references": [
+      "https://docs.python.org/3/library/subprocess.html"
+    ]
+  },
+  {
+    "name": "toml",
+    "alternative": "tomllib",
+    "minimum_python": "3.11",
+    "kind": "stdlib",
+    "compatibility": "conditional",
+    "guidance": "Only for ordinary TOML 1.0 reading. Replace filename/text-stream load() calls with binary file objects; tomllib has no dump()/dumps(), custom _dict, or decoder hooks. Keep a writer or suitable parser when those features are needed.",
+    "source": "https://github.com/uiri/toml",
+    "references": [
+      "https://docs.python.org/3/library/tomllib.html"
+    ]
+  },
+  {
+    "name": "tomli",
+    "alternative": "tomllib",
+    "minimum_python": "3.11",
+    "kind": "stdlib",
+    "compatibility": "conditional",
+    "guidance": "Use import tomllib as tomli for TOML 1.0 parsing on Python 3.11+. Tomli 2.4+ supports TOML 1.1, while Python 3.14 tomllib supports 1.0; retain Tomli for 1.1 documents, older runtimes, or measured benefits from compiled wheels.",
+    "source": "https://github.com/hukkin/tomli",
+    "references": [
+      "https://docs.python.org/3/library/tomllib.html"
+    ]
+  },
+  {
+    "name": "typing",
+    "alternative": "typing",
+    "minimum_python": "3.5",
+    "kind": "stdlib",
+    "compatibility": "drop-in",
+    "guidance": "Remove the obsolete typing distribution and keep imports from typing. This does not apply to typing-extensions, which supplies newer typing features on older supported interpreters.",
+    "source": "https://pypi.org/project/typing/",
+    "references": [
+      "https://docs.python.org/3/library/typing.html"
+    ]
+  },
+  {
+    "name": "ujson",
+    "alternative": "orjson",
+    "minimum_python": "3.10",
+    "kind": "package",
+    "compatibility": "code-change",
+    "guidance": "Requires code changes: dumps() returns bytes, options differ, non-string keys need explicit handling, and non-finite floats serialize differently. Check large integers and all output consumers; no load()/dump() file helpers. Benchmark real payloads rather than assuming a speedup. The floor is for orjson 3.12.0.",
+    "source": "https://github.com/ultrajson/ultrajson",
+    "references": [
+      "https://github.com/ijl/orjson",
+      "https://pypi.org/project/orjson/3.12.0/"
+    ]
+  },
+  {
+    "name": "uuid6",
+    "alternative": "uuid.uuid6 / uuid.uuid7",
+    "minimum_python": "3.14",
+    "kind": "stdlib",
+    "compatibility": "conditional",
+    "guidance": "Use native UUID6/UUID7 generators after checking signatures, UUID subclasses, and ordering requirements. Do not replace package uuid8(): it uses a time-based layout unlike native uuid8(a, b, c). uuid1_to_uuid6() has no direct native counterpart.",
+    "source": "https://github.com/oittaa/uuid6-python",
+    "references": [
+      "https://docs.python.org/3/library/uuid.html"
+    ]
+  },
+  {
+    "name": "zipp",
+    "alternative": "zipfile.Path",
+    "minimum_python": "3.8",
+    "kind": "stdlib",
+    "compatibility": "conditional",
+    "guidance": "Native zipfile.Path exists in 3.8, but this rolling backport includes later features and fixes. Its open() interface changed in 3.9; compare each used API against the lowest patched interpreter before removing zipp.",
+    "source": "https://github.com/jaraco/zipp",
+    "references": [
+      "https://docs.python.org/3/library/zipfile.html#path-objects"
+    ]
+  }
+]
